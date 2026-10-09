@@ -33,9 +33,9 @@ jobs:
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      # 👇 Ejecuta Snyk pero no rompe pipeline (solo avisa)
-      - name: Run Snyk (non-blocking)
-        run: snyk test --file=pom.xml --severity-threshold=high || true
+      # 👇 Ejecuta Snyk y rompe pipeline si hay vulnerabilidades altas/críticas
+      - name: Run Snyk (blocking on high/critical)
+        run: snyk test --file=pom.xml --severity-threshold=high
 
       # 👇 Genera reporte válido para evidencia
       - name: Generate Snyk Report (safe)
